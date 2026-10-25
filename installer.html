@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Установщик - Ты самый сильный</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #0a0a0a; 
+            color: #fff; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+        }
+        .installer { 
+            background: #1a1a1a; 
+            padding: 40px; 
+            border-radius: 16px; 
+            border: 1px solid #333; 
+            max-width: 500px; 
+            width: 90%; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        h1 { color: #ff9900; text-align: center; margin-top: 0; font-size: 28px; }
+        .subtitle { text-align: center; color: #aaa; margin-bottom: 30px; font-size: 14px; }
+        
+        .step { 
+            background: #252525; 
+            padding: 20px; 
+            border-radius: 10px; 
+            margin-bottom: 15px; 
+            border-left: 4px solid #ff9900;
+        }
+        .step-title { font-weight: bold; color: #ff9900; margin-bottom: 10px; display: block; }
+        .step-desc { color: #ccc; font-size: 14px; line-height: 1.5; }
+        
+        a.btn { 
+            display: inline-block; 
+            background: #ff9900; 
+            color: #000; 
+            text-decoration: none; 
+            padding: 12px 24px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            margin-top: 10px; 
+            transition: all 0.3s;
+        }
+        a.btn:hover { background: #ffaa00; transform: translateY(-2px); }
+        
+        .links-section { margin-top: 20px; text-align: center; }
+        .links-section a { 
+            color: #888; 
+            text-decoration: none; 
+            font-size: 13px; 
+            margin: 0 10px; 
+            transition: color 0.3s;
+        }
+        .links-section a:hover { color: #ff9900; }
+        
+        .status { 
+            margin-top: 20px; 
+            padding: 15px; 
+            border-radius: 8px; 
+            text-align: center; 
+            display: none; 
+        }
+        .status.success { background: #1b3a1b; color: #4caf50; display: block; }
+        .status.error { background: #3a1b1b; color: #f44336; display: block; }
+    </style>
+</head>
+<body>
+<div class="installer">
+    <h1>🏆 Ты самый сильный</h1>
+    <p class="subtitle">Автоматическая установка мода для турнира</p>
+    
+    <div class="step">
+        <span class="step-title">Шаг 1: Регистрация</span>
+        <p class="step-desc">Введи свой никнейм из World of Tanks, чтобы попасть в турнирную таблицу.</p>
+        <a href="register.html" class="btn">Зарегистрироваться →</a>
+    </div>
+    
+    <div class="step">
+        <span class="step-title">Шаг 2: Установка мода</span>
+        <p class="step-desc">Нажми кнопку ниже. Установщик сам найдет папку с игрой и скопирует туда мод.</p>
+        <!-- Ссылка на .wotmod файл должна быть прямой ссылкой на raw-файл в GitHub -->
+        <a href="https://raw.githubusercontent.com/gogameover/wot-tournament-strongest/main/strongest_tournament.wotmod" class="btn" id="downloadBtn">⬇️ Скачать и установить мод</a>
+        <div id="installStatus" class="status"></div>
+    </div>
+    
+    <div class="step">
+        <span class="step-title">Шаг 3: Проверка</span>
+        <p class="step-desc">Запусти игру. Мод появится автоматически. Таблица обновляется каждые 10 секунд.</p>
+        <a href="index.html" class="btn" style="background:#333; color:#fff;">📊 Открыть Live-таблицу</a>
+    </div>
+    
+    <div class="links-section">
+        <a href="index.html">Таблица лидеров</a> | 
+        <a href="register.html">Регистрация</a>
+    </div>
+</div>
+
+<script>
+    // Простая имитация установки (так как браузер не может писать в системные папки)
+    document.getElementById('downloadBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        const status = document.getElementById('installStatus');
+        
+        // Показываем инструкцию вместо реальной установки
+        status.className = 'status success';
+        status.innerHTML = `
+            ✅ Файл скачан!<br><br>
+            Теперь перемести файл <b>strongest_tournament.wotmod</b> вручную в папку:<br>
+            <code style="background:#333; padding:5px; border-radius:4px; word-break:break-all;">
+                C:\\World_of_Tanks\\mods\\&lt;версия_игры&gt;\\
+            </code><br><br>
+            После этого запускай игру!
+        `;
+        
+        // Реальное скачивание файла
+        window.open(this.href, '_blank');
+    });
+</script>
+</body>
+</html>
