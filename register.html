@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Регистрация - Ты самый сильный</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background: #121212; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+  .form-container { background: #1e1e1e; padding: 40px; border-radius: 12px; border: 1px solid #333; text-align: center; max-width: 400px; width: 100%; }
+  h1 { color: #ff9900; margin-top: 0; }
+  input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 6px; border: none; background: #2a2a2a; color: #fff; box-sizing: border-box; font-size: 16px; }
+  button { width: 100%; padding: 12px; border-radius: 6px; border: none; background: #ff9900; color: #000; font-weight: bold; font-size: 16px; cursor: pointer; }
+  button:hover { background: #ffaa00; }
+  .msg { margin-top: 15px; padding: 10px; border-radius: 5px; display: none; }
+  .success { background: #1b3a1b; color: #4caf50; }
+  .error { background: #3a1b1b; color: #f44336; }
+</style>
+</head>
+<body>
+<div class="form-container">
+  <h1>🏆 Регистрация</h1>
+  <p>Введи свой никнейм из Мира Танков</p>
+  <input type="text" id="nickname" placeholder="Например: PlayerName">
+  <button onclick="register()">Зарегистрироваться</button>
+  <div id="msg" class="msg"></div>
+</div>
+
+<script>
+  const API_URL = "https://script.google.com/macros/s/AKfycbx8uzWeYRbS94RMs2UTryOXYEAkiAmsK-uOjHJC0lklUK2KUrQx_2Ezpn3Shwqx4kXu/exec";
+
+  function register() {
+    var nick = document.getElementById('nickname').value.trim();
+    if (!nick) return alert('Введите никнейм!');
+    
+    var msgDiv = document.getElementById('msg');
+    msgDiv.style.display = 'block';
+    msgDiv.className = 'msg';
+    msgDiv.innerText = 'Отправка...';
+    
+    fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify({action: 'register', nickname: nick})
+    })
+    .then(r => r.json())
+    .then(d => {
+      if (d.status === 'registered') {
+        msgDiv.className = 'msg success';
+        msgDiv.innerText = '✅ Успех! Теперь установи мод и играй.';
+      } else if (d.status === 'exists') {
+        msgDiv.className = 'msg success';
+        msgDiv.innerText = '️ Этот ник уже зарегистрирован.';
+      } else {
+        msgDiv.className = 'msg error';
+        msgDiv.innerText = '❌ Ошибка: ' + JSON.stringify(d);
+      }
+    })
+    .catch(e => {
+      msgDiv.className = 'msg error';
+      msgDiv.innerText = '❌ Ошибка сети: ' + e.message;
+    });
+  }
+</script>
+</body>
+</html>
